@@ -1,5 +1,20 @@
 #!/usr/bin/perl
 
+# Copyright 2009-2012 Wikidi, a.s.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+
 use strict;
 use Sphinx::Search;
 use Getopt::Long;
@@ -60,11 +75,11 @@ sub process_arguments(){
         GetOptions
                 (
                  "h"   => \$opt_h, "help" => \$opt_h,
-                 "w=i" => \$opt_w, "warning=i"  => \$opt_w,   # warning if above this number
-                 "c=i" => \$opt_c, "critical=i" => \$opt_c,       # critical if above this number
+                 "w=i" => \$opt_w, "warning=i"  => \$opt_w,   # warning
+                 "c=i" => \$opt_c, "critical=i" => \$opt_c,       # critical
                  "q=s" => \$opt_q, "query=s" => \$opt_q,       # Query for searching
                  "t=i" => \$opt_t, "timeout=i" => \$opt_t,       # Global timeout
-                 "H=s" => \$opt_H, "host=s" => \$opt_H       # Global timeout
+                 "H=s" => \$opt_H, "host=s" => \$opt_H       # Hostname
                  );
 
         if ($opt_h) {
@@ -108,15 +123,19 @@ sub print_help () {
         print_usage();
         print "\n";
         print "   Checks the number of founded results for query\n";
+        print "   Connect to host server and port 9312.\n";
+        print "   Ask for query on all indexes and use total founded.\n";
+        print "   If CRITICAL are less then total founded, then CRITICAL.\n";
+        print "   If WARNING are less then total founded, then WARNING.\n";
+        print "";
         print "-w (--warning)   = Min. number of results in queue to generate warning\n";
-        print "-c (--critical)  = Min. number of results in queue to generate critical alert ( w < c )\n";
+        print "-c (--critical)  = Min. number of results in queue to generate critical alert ( w > c )\n";
         print "-q (--query) = 'Prague' by default\n";
         print "-H (--host) = Server name or IP(default 127.0.0.1)\n";
         print "-t (--timeout)  = Set server connection timeout(1000 by default).\n";
         print "-h (--help)\n";
         print "\n\n"; 
         print "Note: -w and -c are required arguments.\n";
-        print " -q query string like 'Prague'\n";
         print "\n\n";
 }
 
