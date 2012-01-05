@@ -1,15 +1,11 @@
 #!/usr/bin/perl
 
-use POSIX;
 use strict;
 use Sphinx::Search;
-use Data::Dumper;
 use Getopt::Long;
+use Data::Dumper;
 
 use vars qw($opt_W $opt_C $opt_w $opt_c $opt_h $opt_q $opt_H $opt_t %ERRORS $sph $results $status);
-
-sub print_help ();
-sub process_arguments ();
 
 $status = process_arguments();
 
@@ -29,13 +25,8 @@ alarm($opt_t);
 ######################## MAIN ######################
 
 $sph = Sphinx::Search->new();
+
 $sph->SetServer($opt_H, '9312');
-
-if( $sph->IsConnectError ) {
- print "SPHINX ERROR - found : Praha ", $sph->GetLastError,"\n";
- exit();
-}
-
 $sph->SetLimits(0, 0);
 $sph->SetMaxQueryTime($opt_t);
 $sph->SetRankingMode(SPH_RANK_NONE);
@@ -44,21 +35,26 @@ $results = $sph->SetMatchMode(SPH_MATCH_ALL)
   ->SetSortMode(SPH_SORT_RELEVANCE)
   ->Query($opt_q);
 
-#print Dumper $sph->Status();
-#print Dumper $results;
-
-if ( $$results{error} ) {
- print "CRITICAL: ", $sph->GetLastError, "\n";
- exit $ERRORS{'CRITICAL'};
-} elsif ( $$results{total_found} < $opt_c ) {
- print "CRITICAL: $opt_q ", $$results{total_found}, "\n";
+if( $sph->IsConnectError ) {
+ print "ERROR: ", $sph->GetLastError,"\n";
  exit $ERRORS{'CRITICAL'};
 }
 
-print "OK: $opt_q ", $$results{total_found}, "\n";
+if ( $results->{error} ) {
+ print "CRITICAL: ", $sph->GetLastError, "\n";
+ exit $ERRORS{'CRITICAL'};
+} elsif ( $results->{total_found} < $opt_c ) {
+ print "CRITICAL: $opt_q ", $results->{total_found}, "\n";
+ exit $ERRORS{'CRITICAL'};
+} elsif ( $results->{total_found} < $opt_w ) {
+ print "WARNING: $opt_q ", $results->{total_found}, "\n";
+ exit $ERRORS{'WARNING'};
+}
+
+print "OK: $opt_q ", $results->{total_found}, "\n";
 exit $ERRORS{'OK'};
 
-
+############### Main END ########################
 
 sub process_arguments(){
         GetOptions
@@ -75,8 +71,8 @@ sub process_arguments(){
                 print_help();
                 exit $ERRORS{'OK'};
         }
-        if ( $opt_w >= $opt_c) {
-                print "Warning (-w) cannot be greater than Critical (-c)!\n";
+        if ( $opt_w <= $opt_c) {
+                print "Warning (-w) cannot be smaller than Critical (-c)!\n";
                 exit $ERRORS{'UNKNOWN'};
         }
 
@@ -94,12 +90,12 @@ sub process_arguments(){
         }
 
         unless (defined $opt_H) {
-                $opt_H = "127.0.0.1" ;      # default query
+                $opt_H = "127.0.0.1" ;      # default host
         }
 
 
 
-	return $ERRORS{'OK'};
+return $ERRORS{'OK'};
 }
 
 sub print_usage () {
