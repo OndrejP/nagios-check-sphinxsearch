@@ -110,7 +110,7 @@ return $ERRORS{'OK'};
 }
 
 sub print_usage () {
-        print "Usage: check_sphinx_query -w <warn> -c <crit> -s <server IP/Name> -q <query> -t <timeout>\n";
+        print "Usage: check_sphinx_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <timeout>\n";
 }
 
 sub print_help () {

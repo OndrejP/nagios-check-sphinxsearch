@@ -1,13 +1,13 @@
 Nagios check sphinxsearch
-version 0.00001
 
-Usage: check_sphinx_query -w <warn> -c <crit> -s <server IP/Name> -q <query> -t <timeout>
+Usage: check_sphinx_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <timeout>
 
    Checks the number of founded results for query
    -w (--warning)   = Min. number of results in queue to generate warning
    -c (--critical)  = Min. number of results in queue to generate critical alert ( w < c )
-   -q (--query) = 'Prague' by default
-   -H (--host) = Server name or IP(default 127.0.0.1)
+   -q (--query) = ('Prague' by default)
+   -H (--host) = Server name or IP(default 127.0.0.1) 
    -t (--timeout)  = Set server connection timeout(1000 by default).
    -h (--help)
-   
+
+Example: ./check_sphinx_query -w 200 -c 150 -H localhost -q why
