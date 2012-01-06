@@ -45,10 +45,16 @@ On nagios server monitor:
 ``` edit /etc/nagios3/conf.d/<servername>.cfg :
 define service {
   host_name                       <hostname>
+  
   service_description             Sphinxsearch query
+  
   check_command                   check_nrpe_4arg!check_sphinxsearch_query!<hostname/IP>!<query>!<warning>!<critical>
+  
   # Example:             			check_nrpe_4arg!check_sphinxsearch_query!127.0.0.1!wtf!350!100
+  
   use                             generic-service
+  
   notification_interval           0
+  
 }
 ```
