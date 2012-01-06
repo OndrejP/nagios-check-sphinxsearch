@@ -1,8 +1,14 @@
 Nagios check sphinxsearch
+=========================
 
-Requirements: Perl, libsphinx-search-perl
+Requirements 
+------------
+Perl, libsphinx-search-perl
 
-Usage: check_sphinxsearch_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <timeout>
+Usage
+-----
+
+check_sphinxsearch_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <timeout>
 
    Checks the number of founded results for query
    -w (--warning)   = Min. number of results in queue to generate warning
@@ -16,8 +22,10 @@ Example: ./check_sphinxsearch_query -w 200 -c 150 -H localhost -q why
 
 
 INSTALL
+-------
 
 On Sphinxsearch server with nrpe:
+
  cat /etc/nagios/nrpe.d/sphinxsearch_query.cfg
   command[check_sphinxsearch_query]=/usr/lib/nagios/wikidi/check_sphinxsearch_query -H $ARG1$ -q $ARG2$ -w $ARG3$ -c $ARG4$
 
