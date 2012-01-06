@@ -44,7 +44,7 @@ On nagios server monitor:
 
  edit /etc/nagios3/conf.d/<servername>.cfg :
 
-``   define service {
+   define service {
         host_name                       <hostname>
         service_description             Sphinxsearch query
         check_command                   check_nrpe_4arg!check_sphinxsearch_query!<hostname/IP>!<query>!<warning>!<critical>
@@ -52,4 +52,3 @@ On nagios server monitor:
         use                             generic-service
         notification_interval           0
    }
-``
