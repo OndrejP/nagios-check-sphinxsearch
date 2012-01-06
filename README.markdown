@@ -41,15 +41,15 @@ On nagios server monitor:
    command_line    /usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -a $ARG2$ $ARG3$ $ARG4$ $ARG5$
   }
 
+-------------------------------------------------
+ edit /etc/nagios3/conf.d/<servername>.cfg:
 
- edit /etc/nagios3/conf.d/<servername>.cfg
-
-  define service {
+   define service {
         host_name                       <hostname>
         service_description             Sphinxsearch query
         check_command                   check_nrpe_4arg!check_sphinxsearch_query!<hostname/IP>!<query>!<warning>!<critical>
         # Example: 			check_nrpe_4arg!check_sphinxsearch_query!127.0.0.1!wtf!350!100
         use                             generic-service
         notification_interval           0
-  }
-
+   }
+-------------------------------------------------
