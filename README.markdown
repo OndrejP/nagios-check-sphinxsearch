@@ -25,11 +25,14 @@ INSTALL
 
 On Sphinxsearch server with nrpe:
 
- cat /etc/nagios/nrpe.d/sphinxsearch_query.cfg
-  command[check_sphinxsearch_query]=/usr/lib/nagios/wikidi/check_sphinxsearch_query -H $ARG1$ -q $ARG2$ -w $ARG3$ -c $ARG4$
+edit /etc/nagios/nrpe.d/sphinxsearch_query.cfg:
+  
+```
+command[check_sphinxsearch_query]=/usr/lib/nagios/wikidi/check_sphinxsearch_query -H $ARG1$ -q $ARG2$ -w $ARG3$ -c $ARG4$
+```
 
- mkdir /usr/lib/nagios/wikidi/
- upload check_sphinxsearch_query to /usr/lib/nagios/wikidi/
+mkdir /usr/lib/nagios/wikidi/
+upload check_sphinxsearch_query to /usr/lib/nagios/wikidi/
 
 On nagios server monitor:
 
