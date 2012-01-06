@@ -8,18 +8,17 @@ Perl, libsphinx-search-perl
 Usage
 -----
 
+```
 check_sphinxsearch_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <timeout>
-
-   Checks the number of founded results for query
-   -w (--warning)   = Min. number of results in queue to generate warning
-   -c (--critical)  = Min. number of results in queue to generate critical alert ( w < c )
-   -q (--query) = ('Prague' by default)
-   -H (--host) = Server name or IP(default 127.0.0.1) 
-   -t (--timeout)  = Set server connection timeout(1000 by default).
-   -h (--help)
-
+  Checks the number of founded results for query
+  -w (--warning)   = Min. number of results in queue to generate warning
+  -c (--critical)  = Min. number of results in queue to generate critical alert ( w < c )
+  -q (--query) = ('Prague' by default)
+  -H (--host) = Server name or IP(default 127.0.0.1) 
+  -t (--timeout)  = Set server connection timeout(1000 by default).
+  -h (--help)
 Example: ./check_sphinxsearch_query -w 200 -c 150 -H localhost -q why
-
+```
 
 INSTALL
 -------
@@ -34,15 +33,18 @@ On Sphinxsearch server with nrpe:
 
 On nagios server monitor:
 
- edit /etc/nagios-plugins/config/check_nrpe.cfg
+edit /etc/nagios-plugins/config/check_nrpe.cfg:
   
-  define command {
-   command_name    check_nrpe_4arg
-   command_line    /usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -a $ARG2$ $ARG3$ $ARG4$ $ARG5$
-  }
+```
+define command {
+ command_name    check_nrpe_4arg
+ command_line    /usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -a $ARG2$ $ARG3$ $ARG4$ $ARG5$
+}
+```
 
+edit /etc/nagios3/conf.d/<servername>.cfg :
 
-``` edit /etc/nagios3/conf.d/<servername>.cfg :
+```
 define service {
   host_name                       <hostname>
   service_description             Sphinxsearch query
