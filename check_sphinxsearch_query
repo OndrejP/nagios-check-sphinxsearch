@@ -14,20 +14,25 @@
 use strict;
 use Sphinx::Search;
 use Getopt::Long;
-use Data::Dumper;
 
-use vars qw($opt_W $opt_C $opt_w $opt_c $opt_h $opt_q $opt_H $opt_t %ERRORS $sph $results $status);
+use vars qw($opt_w $opt_c $opt_h $opt_q $opt_H $opt_t %ERRORS $sph $results);
 
-$status = process_arguments();
+my %ERRORS = ('UNKNOWN' , '-1',
+              'OK' , '0',
+              'WARNING', '1',
+              'CRITICAL', '2');
+
+
+my $status = process_arguments();
 
 if ($status) {
- print "ERROR: processing arguments\n";
+ print "Sphinxsearch query CRITICAL: processing arguments\n";
  exit $ERRORS{"UNKNOWN"};
 }
 
 
 $SIG{'ALRM'} = sub {
-        print ("ERROR: timed out waiting for sphinx \n");
+        print ("Sphinxsearch query WARNING: timed out waiting for sphinx \n");
         exit $ERRORS{"WARNING"};
 };
 alarm($opt_t);
@@ -47,22 +52,22 @@ $results = $sph->SetMatchMode(SPH_MATCH_ALL)
   ->Query($opt_q);
 
 if( $sph->IsConnectError ) {
- print "ERROR: ", $sph->GetLastError,"\n";
+ print "Sphinxsearch query CRITICAL: ", $sph->GetLastError,"\n";
  exit $ERRORS{'CRITICAL'};
 }
 
 if ( $results->{error} ) {
- print "CRITICAL: ", $sph->GetLastError, "\n";
+ print "Sphinxsearch query CRITICAL: ", $sph->GetLastError, "\n";
  exit $ERRORS{'CRITICAL'};
 } elsif ( $results->{total_found} < $opt_c ) {
- print "CRITICAL: $opt_q ", $results->{total_found}, "\n";
+ print "Sphinxsearch query CRITICAL: $opt_q ", $results->{total_found}, "\n";
  exit $ERRORS{'CRITICAL'};
 } elsif ( $results->{total_found} < $opt_w ) {
- print "WARNING: $opt_q ", $results->{total_found}, "\n";
+ print "Sphinxsearch query WARNING: $opt_q ", $results->{total_found}, "\n";
  exit $ERRORS{'WARNING'};
 }
 
-print "OK: $opt_q ", $results->{total_found}, "\n";
+print "Sphinxsearch query OK: $opt_q ", $results->{total_found}, "\n";
 exit $ERRORS{'OK'};
 
 ############### Main END ########################
@@ -83,7 +88,7 @@ sub process_arguments(){
                 exit $ERRORS{'OK'};
         }
         if ( $opt_w <= $opt_c) {
-                print "Warning (-w) cannot be smaller than Critical (-c)!\n";
+            print "Sphinxsearch query UNKNOWN:  (-w '$opt_w') cannot be smaller than Critical (-c '$opt_c'). \n";
                 exit $ERRORS{'UNKNOWN'};
         }
 
@@ -103,7 +108,6 @@ sub process_arguments(){
         unless (defined $opt_H) {
                 $opt_H = "127.0.0.1" ;      # default host
         }
-
 
 
 return $ERRORS{'OK'};
