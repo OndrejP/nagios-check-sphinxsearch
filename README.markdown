@@ -42,7 +42,7 @@ On nagios server monitor:
   }
 
 
- edit /etc/nagios3/conf.d/<servername>.cfg :
+``` edit /etc/nagios3/conf.d/<servername>.cfg :
 
    define service {
         host_name                       <hostname>
@@ -52,3 +52,4 @@ On nagios server monitor:
         use                             generic-service
         notification_interval           0
    }
+```
