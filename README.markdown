@@ -17,7 +17,7 @@ check_sphinxsearch_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <
   -H (--host) = Server name or IP(default 127.0.0.1) 
   -t (--timeout)  = Set server connection timeout(1000 by default).
   -h (--help)
-Example: ./check_sphinxsearch_query -w 200 -c 150 -H localhost -q why
+Example: ./check_sphinxsearch_query -w 200 -c 150 -H localhost -q pourquoi
 ```
 
 INSTALL
