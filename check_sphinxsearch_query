@@ -114,7 +114,7 @@ return $ERRORS{'OK'};
 }
 
 sub print_usage () {
-        print "Usage: check_sphinx_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <timeout>\n";
+        print "Usage: check_sphinx_query -w <warn> -c <crit> -H <server IP/Name/path to socket> -q <query> -t <timeout>\n";
 }
 
 sub print_help () {
@@ -131,7 +131,7 @@ sub print_help () {
         print "-w (--warning)   = Min. number of results in queue to generate warning\n";
         print "-c (--critical)  = Min. number of results in queue to generate critical alert ( w > c )\n";
         print "-q (--query) = 'Prague' by default\n";
-        print "-H (--host) = Server name or IP(default 127.0.0.1)\n";
+        print "-H (--host) = Server name, IP address, or path to Unix socket (default 127.0.0.1)\n";
         print "-t (--timeout)  = Set server connection timeout(1000 by default).\n";
         print "-h (--help)\n";
         print "\n\n"; 
