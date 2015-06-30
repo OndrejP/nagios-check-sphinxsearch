@@ -87,7 +87,7 @@ sub process_arguments(){
                 print_help();
                 exit $ERRORS{'OK'};
         }
-        if ( $opt_w <= $opt_c) {
+        if (($opt_w || $opt_c) && $opt_w <= $opt_c) {
             print "Sphinxsearch query UNKNOWN:  (-w '$opt_w') cannot be smaller than Critical (-c '$opt_c'). \n";
                 exit $ERRORS{'UNKNOWN'};
         }
@@ -127,6 +127,8 @@ sub print_help () {
         print "   Ask for query on all indexes and use total founded.\n";
         print "   If CRITICAL are less then total founded, then CRITICAL.\n";
         print "   If WARNING are less then total founded, then WARNING.\n";
+        print "   If CRITICAL and WARNING are both zero, return OK for any\n";
+        print "   number of results (including zero).\n";
         print "";
         print "-w (--warning)   = Min. number of results in queue to generate warning\n";
         print "-c (--critical)  = Min. number of results in queue to generate critical alert ( w > c )\n";
