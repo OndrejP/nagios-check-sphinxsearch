@@ -75,7 +75,7 @@ exit $ERRORS{'OK'};
 sub process_arguments(){
         GetOptions
                 (
-                 "h"   => \$opt_h, "help" => \$opt_h,
+                 "help" => \$opt_h,
                  "w=i" => \$opt_w, "warning=i"  => \$opt_w,   # warning
                  "c=i" => \$opt_c, "critical=i" => \$opt_c,       # critical
                  "q=s" => \$opt_q, "query=s" => \$opt_q,       # Query for searching
@@ -133,7 +133,7 @@ sub print_help () {
         print "-q (--query) = 'Prague' by default\n";
         print "-H (--host) = Server name or IP(default 127.0.0.1)\n";
         print "-t (--timeout)  = Set server connection timeout(1000 by default).\n";
-        print "-h (--help)\n";
+        print "--help\n";
         print "\n\n"; 
         print "Note: -w and -c are required arguments.\n";
         print "\n\n";
