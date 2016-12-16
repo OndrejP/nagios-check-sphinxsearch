@@ -87,7 +87,7 @@ sub process_arguments(){
                 print_help();
                 exit $ERRORS{'OK'};
         }
-        if ( $opt_w <= $opt_c) {
+        if (($opt_w || $opt_c) && $opt_w <= $opt_c) {
             print "Sphinxsearch query UNKNOWN:  (-w '$opt_w') cannot be smaller than Critical (-c '$opt_c'). \n";
                 exit $ERRORS{'UNKNOWN'};
         }
@@ -114,7 +114,7 @@ return $ERRORS{'OK'};
 }
 
 sub print_usage () {
-        print "Usage: check_sphinx_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <timeout>\n";
+        print "Usage: check_sphinx_query -w <warn> -c <crit> -H <server IP/Name/path to socket> -q <query> -t <timeout>\n";
 }
 
 sub print_help () {
@@ -127,11 +127,13 @@ sub print_help () {
         print "   Ask for query on all indexes and use total founded.\n";
         print "   If CRITICAL are less then total founded, then CRITICAL.\n";
         print "   If WARNING are less then total founded, then WARNING.\n";
+        print "   If CRITICAL and WARNING are both zero, return OK for any\n";
+        print "   number of results (including zero).\n";
         print "";
         print "-w (--warning)   = Min. number of results in queue to generate warning\n";
         print "-c (--critical)  = Min. number of results in queue to generate critical alert ( w > c )\n";
         print "-q (--query) = 'Prague' by default\n";
-        print "-H (--host) = Server name or IP(default 127.0.0.1)\n";
+        print "-H (--host) = Server name, IP address, or path to Unix socket (default 127.0.0.1)\n";
         print "-t (--timeout)  = Set server connection timeout(1000 by default).\n";
         print "--help\n";
         print "\n\n"; 

@@ -14,7 +14,7 @@ check_sphinxsearch_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <
   -w (--warning)   = Min. number of results in queue to generate warning
   -c (--critical)  = Min. number of results in queue to generate critical alert ( w < c )
   -q (--query) = ('Prague' by default)
-  -H (--host) = Server name or IP(default 127.0.0.1) 
+  -H (--host) = Server name, IP address, or path to Unix socket (default 127.0.0.1)
   -t (--timeout)  = Set server connection timeout(1000 by default).
   -h (--help)
 Example: ./check_sphinxsearch_query -w 200 -c 150 -H localhost -q why
