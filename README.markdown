@@ -20,8 +20,8 @@ check_sphinxsearch_query -w <warn> -c <crit> -H <server IP/Name> -q <query> -t <
 Example: ./check_sphinxsearch_query -w 200 -c 150 -H localhost -q why
 ```
 
-INSTALL
--------
+Nagios configuration
+--------------------
 
 On Sphinxsearch server with nrpe:
 
@@ -55,5 +55,56 @@ define service {
   # Example:             			check_nrpe_4arg!check_sphinxsearch_query!127.0.0.1!wtf!350!100
   use                             generic-service
   notification_interval           0
+}
+```
+
+Icinga2 configuration
+---------------------
+
+Create a new `CheckCommand` configuration in your zone:
+
+```
+object CheckCommand "sphinxsearch_query" {
+    import "plugin-check-command"
+    command = [ PluginDir + "/check_sphinxsearch_query" ]
+
+    arguments = {
+        "--warning" = {
+            value = "$sphinxsearch_query_warning$"
+            description = "Min. number of results in queue to generate warning"
+            required = true
+        }
+        "--critical" = {
+            value = "$sphinxsearch_query_critical$"
+            description = "Min. number of results in queue to generate critical alert ( w > c )"
+            required = true
+        }
+        "--query" = {
+            value = "$sphinxsearch_query_query$"
+            description = "'Prague' by default"
+        }
+        "--host" = {
+            value = "$sphinxsearch_query_host$"
+            description = "Server name, IP address, or path to Unix socket (default 127.0.0.1)"
+        }
+        "--timeout" = {
+            value = "$sphinxsearch_query_timeout$"
+            description = "Server name, IP address, or path to Unix socket (default 127.0.0.1)"
+        }
+    }
+    vars.sphinxsearch_query_warning = 10
+    vars.sphinxsearch_query_critical = 5
+    vars.sphinxsearch_query_host = localhost
+}
+```
+
+Define a new service and assign it to all host with vars.sphinxsearch:
+```
+apply Service "Sphinx search query" {
+  import "generic-service"
+  vars.sphinxsearch_query = "test"
+  check_command = "sphinxsearch_query"
+  command_endpoint = host.vars.client_endpoint
+  assign where host.vars.client_endpoint && host.vars.sphinxsearch
 }
 ```
