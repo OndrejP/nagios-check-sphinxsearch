@@ -102,7 +102,7 @@ Define a new service and assign it to all host with vars.sphinxsearch:
 ```
 apply Service "Sphinx search query" {
   import "generic-service"
-  vars.sphinxsearch_query = "test"
+  vars.sphinxsearch_query_query = "test"
   check_command = "sphinxsearch_query"
   command_endpoint = host.vars.client_endpoint
   assign where host.vars.client_endpoint && host.vars.sphinxsearch
