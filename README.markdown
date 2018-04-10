@@ -94,7 +94,7 @@ object CheckCommand "sphinxsearch_query" {
     }
     vars.sphinxsearch_query_warning = 10
     vars.sphinxsearch_query_critical = 5
-    vars.sphinxsearch_query_host = localhost
+    vars.sphinxsearch_query_host = "localhost"
 }
 ```
 
